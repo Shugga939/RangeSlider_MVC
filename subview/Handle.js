@@ -9,7 +9,7 @@ export default class Handle {
     this.options = options
     this.isRange = (options.range == true)
     this.isVertical = (options.orientation == "vertical")
-    this.isStep = options.step 
+    this.step = options.step 
     this.slider = slider
     this.observer = observer
   }
@@ -23,44 +23,22 @@ export default class Handle {
   }
 
   update_handle (handle, spacing_target) {
-    // let isVertical = (this.options.orientation == "vertical")
     this.isVertical? handle.style.bottom = `${spacing_target}px`:
                 handle.style.left = `${spacing_target}px`;
   
     handle == this.handle_1 ? this.first_value = spacing_target : this.second_value = spacing_target
       this.observer.broadcast(this.first_value, this.second_value)
-    
   }
 
-  // initPosition (spacing_target1,spacing_target2) {
-  //   console.log(this)
-  //   let isVertical = (this.options.orientation == "vertical")
-  //   if (isVertical) { 
-  //     this.handle_1.style.bottom = `${spacing_target1}px`
-  //     this.handle_2.style.bottom = `${spacing_target2}px`}
-  //   else {
-  //     this.handle_1.style.left = `${spacing_target1}px`;
-  //     this.handle_2.style.left = `${spacing_target2}px`;
-  //   }
-  //   this.first_value = spacing_target1
-  //   this.second_value = spacing_target2
-  //   this.observer.broadcast(this.first_value, this.second_value)
-
-  // }
-
   renderHandles () {
-    // let isRange = (this.options.range == true)
     let arrOfHandles = [this.handle_1]
     if (this.isRange) arrOfHandles.push(this.handle_2)
     arrOfHandles.forEach (el=> {this.slider.append(el)})
   }
 
   updateStyle () {
-    // let isVertical = (this.options.orientation == "vertical")
-    // let isRange = (this.options.range == true)
     let half_width_handle
     this.isVertical? half_width_handle = this.handle_1.offsetHeight/2 : half_width_handle = this.handle_1.offsetWidth/2 
-    console.log(half_width_handle) 
     let borderWidth_of_slider = this.isVertical? this.slider.clientTop : this.slider.clientLeft 
     let margin = half_width_handle+borderWidth_of_slider
 
@@ -75,13 +53,10 @@ export default class Handle {
   }
   addListener () {
     let that = this
-    // let isRange = (this.options.range == true)
-    // let isVertical = (this.options.orientation == "vertical")
-    // let isStep = (this.options.step)
-    const slider = that.slider
+    const slider = this.slider
     let size_slider = this.isVertical? slider.getBoundingClientRect().height : 
                                   slider.getBoundingClientRect().width
-
+    let borderWidth_of_slider = this.isVertical? slider.clientTop : slider.clientLeft
     this.handle_1.addEventListener('mousedown', HandleMove)             
     if (this.isRange) this.handle_2.addEventListener('mousedown', HandleMove)
 
@@ -108,7 +83,7 @@ export default class Handle {
         that.isVertical? target = -(event.clientY - y  - margin_handle  - size_slider) :
                     target = event.clientX - x -shiftX - margin_handle - borderWidth_of_slider
     
-                    that.isStep? moveIfStep() : moveIfNotStep()
+                    that.step? moveIfStep() : moveIfNotStep()
         
         function moveIfNotStep() {
           if (handle == that.handle_1) {            // если first_handle
@@ -130,7 +105,7 @@ export default class Handle {
     
           handle == that.handle_1? target_up = parseValueInPx(+val1+ +step, that.options,size_slider) : target_up = parseValueInPx(+val2+ +step, that.options,size_slider)
           handle == that.handle_1? target_down = parseValueInPx(+val1- +step, that.options,size_slider) : target_down = parseValueInPx(+val2- +step, that.options,size_slider)
-    
+          
           if(target_up> newRight) target_up = newRight // когда таргет выходит 
           if(target_down < 0) target_down = 0          // за пределы слайдера
     
@@ -140,7 +115,7 @@ export default class Handle {
             that.update_handle(handle,target_up)
           }
           if (target<=target_down){                 //перемещение если таргет меньше величины шага
-            if (that.isRange && handle == that.handle_1 && target_down<that.first_value) target_down = that.first_value
+            if (that.isRange && handle == that.handle_2 && target_down<that.first_value) target_down = that.first_value
             if(target_down<0) {target_down = 0}
             that.update_handle(handle,target_down)
           } 

@@ -11,7 +11,7 @@ export default class RangeLine {
     this.slider.append(this.rangeLine)
   }
 
-  update (first_value,second_value,handle) {
+  update (first_value,second_value) {
     let that = this
     this.isRange? update_if_isRange() : update_if_notRange()
 
@@ -21,7 +21,7 @@ export default class RangeLine {
         that.rangeLine.style.bottom = `${first_value - that.borderWidth_of_slider}px`
       } else {
         that.rangeLine.style.width = `${second_value - first_value}px`
-        that.rangeLine.style.left = `${first_value + that.half_width_handle-parseInt(getComputedStyle(slider).paddingLeft)}px`
+        that.rangeLine.style.left = `${first_value + that.half_width_handle-parseInt(getComputedStyle(that.slider).paddingLeft)}px`
       }
     }
     function update_if_notRange () {

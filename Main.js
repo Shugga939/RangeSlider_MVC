@@ -8,10 +8,10 @@ let options = {
   values : [20,30],
   separator : ' - ',
   modifier : '₽',
-  // range : true,  
-  orientation : "vertical",
+  range : true,  
+  // orientation : "vertical",
   // label : 'true',
-  // step : 10,
+  step : 10,
   marks : 's'
 };
 
