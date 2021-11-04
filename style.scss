@@ -1,0 +1,115 @@
+*{
+    box-sizing: border-box;
+}
+body{
+background: rgba(11, 247, 255, 0.048);
+margin: 0;
+padding: 0;
+
+}
+.container{
+  position: relative;
+  margin: 20px 10%;
+}
+.slider{
+  position: relative;
+  height: min-content;
+  width: 300px;
+  height: 200px;
+
+  .slider-value{
+    margin-bottom: 50px;
+    margin-left: 25%;
+  }
+  .range-slider{
+    position: relative;
+    height: 100%;
+    width: 6px;
+    // height: 6px;
+    // width: 100%;  // for test
+    border: 1px solid #c5c5c5;
+    border-radius: 3px;
+
+    .slider-range{
+      position: absolute;
+      background: linear-gradient(180deg,#6fcf97,#66d2ea);
+      width: 6px;
+      height: 6px;
+      border-radius: 3px;
+      
+    }
+
+    .slider-handle{
+      position: absolute;
+      z-index: 2;
+      cursor: default;
+      -ms-touch-action: none;
+      touch-action: none;
+      left: -4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 100%;
+      border: 1px solid #fff;
+      background: linear-gradient(180deg,#6fcf97,#66d2ea);
+    }
+    
+    .value_label{
+      position: relative;
+      color: #000000a2;
+      display: flex;
+      justify-content: center;
+      width: min-content;
+      text-align: center;
+      cursor: pointer;
+      touch-action: none;
+      background: white;
+      border: 1px solid rgba(128, 128, 128, 0.404);
+      border-radius: 2px ;
+      padding: 0 2px;
+    }
+    .label_horizontal{
+      bottom: 30px;
+        &::after{
+        content: '';
+        position: absolute;
+        top: 105%;
+        width: 0; 
+        height: 0; 
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid rgba(128, 128, 128, 0.404);
+      }
+    }
+    .label_vertical{
+      left: 20px;
+        &::after{
+        content: '';
+        position: absolute;
+        top: 25%;
+        right: 103%;
+        width: 0; 
+        height: 0; 
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-right: 5px solid rgba(128, 128, 128, 0.404);
+      }
+    }
+  }
+  .marks {
+    position: absolute;
+    color: rgba(128, 128, 128, 0.404);
+    .mark {
+      position: absolute;
+      font-size: 12px ;
+      cursor: pointer;
+    }
+  }
+  .marks_horizontal{
+    top: 12px;
+  }
+  .marks_vertical{
+    right: 20px;
+ }
+}
+
+
