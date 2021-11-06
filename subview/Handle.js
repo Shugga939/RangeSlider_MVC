@@ -69,10 +69,12 @@ export default class Handle {
       let handle = this
       let {x} = slider.getBoundingClientRect()
       let {y} = slider.getBoundingClientRect()
-      let shiftX = event.clientX - handle.getBoundingClientRect().left
+      let shift
       let margin_handle 
+      that.isVertical? shift = (event.clientY - handle.getBoundingClientRect().top - handle.offsetHeight/2): 
+                       shift =  event.clientX - handle.getBoundingClientRect().left
     
-      this.isVertical? margin_handle =  parseInt(getComputedStyle(handle).marginTop) :
+      that.isVertical? margin_handle =  parseInt(getComputedStyle(handle).marginTop) :
                   margin_handle =  parseInt(getComputedStyle(handle).marginLeft)
     
       function MouseMove (event) {
@@ -80,9 +82,8 @@ export default class Handle {
         let newRight = size_slider   
         let val1 = parsePxInValue(that.first_value,that.options,size_slider)  
         let val2 = parsePxInValue(that.second_value,that.options,size_slider)  
-        that.isVertical? target = -(event.clientY - y  - margin_handle  - size_slider) :
-                    target = event.clientX - x -shiftX - margin_handle - borderWidth_of_slider
-    
+        that.isVertical? target = -(event.clientY - y  - shift - margin_handle  - size_slider) :
+                    target = event.clientX - x -shift - margin_handle - borderWidth_of_slider
                     that.step? moveIfStep() : moveIfNotStep()
         
         function moveIfNotStep() {
