@@ -1,8 +1,9 @@
+import Slider from './subview/Slider.js'
+import Input from './subview/Input.js'
 import Handle from './subview/Handle.js'
 import RangeLine from './subview/RangeLine.js'
 import Marks from './subview/Marks.js'
 import Observer from './Observer.js'
-import Input from './subview/Input.js'
 
 import {parsePxInValue, parseValueInPx} from "./Helpers.js"
 
@@ -10,7 +11,7 @@ import {parsePxInValue, parseValueInPx} from "./Helpers.js"
 class View {
   constructor () {
     this.app = document.querySelector('.slider')
-    this.slider = this.createElement('div','range-slider')
+    // this.slider = this.createElement('div','range-slider')
     this.label = this.createElement('span', 'value_label')
     this.marksContainer = this.createElement('div', 'marks')
     this.mark = this.createElement('span', 'mark')
@@ -25,6 +26,8 @@ class View {
 
   renderDOM (options) {
     this.options = options
+    this.slider_object = new Slider (this.options, this.app,this.observer)
+    this.slider = this.slider_object.getDOM_element()
     this.input = new Input (this.options, this.app)
     this.handle = new Handle (this.options,this.slider,this.observer)
     this.rangeLine = new RangeLine (this.options, this.slider)
@@ -33,7 +36,7 @@ class View {
     this.handle.renderHandles()
     this.rangeLine.renderLine()
     this.marks.renderMarks()
-    this.app.append(this.slider)
+    this.slider_object.renderSlider()
 
     let isVertical = (this.options.orientation == "vertical")
     this.size_slider = isVertical? this.slider.getBoundingClientRect().height : 
@@ -58,8 +61,9 @@ class View {
       that.handle.update_handle(that.handle.getHandle2(),that.second_value)
       that.rangeLine.update(that.first_value,that.second_value,that.handle.getHandle1())
       that.input.update(that.first_value,that.second_value,that.size_slider)
+      that.slider_object.addListener(that.first_value,that.second_value,that.handle)
     }
-    
+
     function addObserver () {
       that.observer.subscribe(updateValue)
 
@@ -68,6 +72,7 @@ class View {
           that.second_value = val2
           that.rangeLine.update(that.first_value,that.second_value,that.options)
           that.input.update(that.first_value,that.second_value,that.size_slider)
+
       }
     }
   }

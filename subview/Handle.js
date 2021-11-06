@@ -76,8 +76,8 @@ export default class Handle {
                   margin_handle =  parseInt(getComputedStyle(handle).marginLeft)
     
       function MouseMove (event) {
-        let target                   // значение по x||y от "начала" слайдера в px 
-        let newRight = size_slider   // тригер для окончания движения ползунка
+        let target                  
+        let newRight = size_slider   
         let val1 = parsePxInValue(that.first_value,that.options,size_slider)  
         let val2 = parsePxInValue(that.second_value,that.options,size_slider)  
         that.isVertical? target = -(event.clientY - y  - margin_handle  - size_slider) :
@@ -86,13 +86,13 @@ export default class Handle {
                     that.step? moveIfStep() : moveIfNotStep()
         
         function moveIfNotStep() {
-          if (handle == that.handle_1) {            // если first_handle
-            if (that.isRange) newRight = that.second_value   // если range==true крайнее значение - правый ползунок
+          if (handle == that.handle_1) {           
+            if (that.isRange) newRight = that.second_value   
             if (target < 0) target = 0           
-          } else {                                // если second_handle 
+          } else {                               
             if (target < that.first_value) target = that.first_value
           }
-          if (target > newRight) {               // для обоих handle  
+          if (target > newRight) {             
             target = newRight;
           }
           that.update_handle(handle,target)
@@ -106,15 +106,15 @@ export default class Handle {
           handle == that.handle_1? target_up = parseValueInPx(+val1+ +step, that.options,size_slider) : target_up = parseValueInPx(+val2+ +step, that.options,size_slider)
           handle == that.handle_1? target_down = parseValueInPx(+val1- +step, that.options,size_slider) : target_down = parseValueInPx(+val2- +step, that.options,size_slider)
           
-          if(target_up> newRight) target_up = newRight // когда таргет выходит 
-          if(target_down < 0) target_down = 0          // за пределы слайдера
+          if(target_up> newRight) target_up = newRight 
+          if(target_down < 0) target_down = 0          
     
-          if(target>=target_up) {                     //перемещение если таргет больше величины шага
+          if(target>=target_up) {                     
             if (that.isRange && handle == that.handle_1) newRight = that.second_value
             if (target_up> newRight) {target_up = newRight}
             that.update_handle(handle,target_up)
           }
-          if (target<=target_down){                 //перемещение если таргет меньше величины шага
+          if (target<=target_down){               
             if (that.isRange && handle == that.handle_2 && target_down<that.first_value) target_down = that.first_value
             if(target_down<0) {target_down = 0}
             that.update_handle(handle,target_down)

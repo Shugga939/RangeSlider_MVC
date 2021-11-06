@@ -18,7 +18,6 @@ export default class Input {
     let {separator = '', modifier = ''} = this.options
     let first_value = parsePxInValue(value_1, this.options,size_slider)   
     let second_value = parsePxInValue(value_2, this.options,size_slider)  
-    console.log(value_1,size_slider)
   
     if (this.isRange) {
       this.input.value = first_value + modifier + separator + second_value + modifier

@@ -11,7 +11,7 @@ let options = {
   range : true,  
   // orientation : "vertical",
   // label : 'true',
-  step : 10,
+  // step : 10,
   marks : 's'
 };
 
