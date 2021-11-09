@@ -57,11 +57,12 @@ class View {
 
     function addListeners() {
       that.handle.addListener()
+      that.slider_object.addListener(that.first_value,that.second_value,that.handle)
+      that.input.addListener(that.handle,that.size_slider)
       that.handle.update_handle(that.handle.getHandle1(),that.first_value)
       that.handle.update_handle(that.handle.getHandle2(),that.second_value)
       that.rangeLine.update(that.first_value,that.second_value,that.handle.getHandle1())
       that.input.update(that.first_value,that.second_value,that.size_slider)
-      that.slider_object.addListener(that.first_value,that.second_value,that.handle)
     }
 
     function addObserver () {
