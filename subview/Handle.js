@@ -27,7 +27,7 @@ export default class Handle {
                 handle.style.left = `${spacing_target}px`;
   
     handle == this.handle_1 ? this.first_value = spacing_target : this.second_value = spacing_target
-      this.observer.broadcast(this.first_value, this.second_value)
+    this.observer.broadcast(this.first_value, this.second_value)
   }
 
   renderHandles () {
@@ -70,13 +70,16 @@ export default class Handle {
       let {x} = slider.getBoundingClientRect()
       let {y} = slider.getBoundingClientRect()
       let shift
-      let margin_handle 
-      that.isVertical? shift = (event.clientY - handle.getBoundingClientRect().top - handle.offsetHeight/2): 
-                       shift =  event.clientX - handle.getBoundingClientRect().left
-    
-      that.isVertical? margin_handle =  parseInt(getComputedStyle(handle).marginTop) :
-                  margin_handle =  parseInt(getComputedStyle(handle).marginLeft)
-    
+      let margin_handle
+
+      if(that.isVertical) {
+        shift = (event.clientY - handle.getBoundingClientRect().top - handle.offsetHeight/2) || '0'
+        margin_handle =  parseInt(getComputedStyle(handle).marginTop)
+      } else {
+        shift =  event.clientX - handle.getBoundingClientRect().left || handle.offsetHeight/2
+        margin_handle =  parseInt(getComputedStyle(handle).marginLeft)
+      }
+
       function MouseMove (event) {
         let target                  
         let newRight = size_slider   
@@ -84,7 +87,8 @@ export default class Handle {
         let val2 = parsePxInValue(that.second_value,that.options,size_slider)  
         that.isVertical? target = -(event.clientY - y  - shift - margin_handle  - size_slider) :
                     target = event.clientX - x -shift - margin_handle - borderWidth_of_slider
-                    that.step? moveIfStep() : moveIfNotStep()
+                    
+        that.step? moveIfStep() : moveIfNotStep()
         
         function moveIfNotStep() {
           if (handle == that.handle_1) {           

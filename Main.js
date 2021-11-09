@@ -5,13 +5,13 @@ import Controller from './Controller.js'
 let options = {
   min_value : 0,
   max_value : 40,
-  values : [20,40],
+  values : [20,30],
   separator : ' - ',
   modifier : '₽',
-  range : true,  
+  // range : true,  
   orientation : "vertical",
   // label : 'true',
-  // step : 10,  
+  // step : 5,  
   marks : 's'
 };
 

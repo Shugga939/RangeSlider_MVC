@@ -69,11 +69,11 @@ class View {
       that.observer.subscribe(updateValue)
 
       function updateValue (val1,val2) {
-          that.first_value = val1
-          that.second_value = val2
-          that.rangeLine.update(that.first_value,that.second_value,that.options)
-          that.input.update(that.first_value,that.second_value,that.size_slider)
-
+        that.first_value = val1
+        that.second_value = val2
+        that.rangeLine.update(that.first_value,that.second_value,that.options)
+        that.input.update(that.first_value,that.second_value,that.size_slider)
+        that.slider_object.update(that.first_value,that.second_value)
       }
     }
   }

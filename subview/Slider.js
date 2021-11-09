@@ -20,12 +20,18 @@ export default class Slider {
     return this.slider
   }
 
-  addListener (first_value, second_value,handle_ojb) {
+  update (first_value, second_value) {
+    this.first_value = first_value
+    this.second_value = this.isRange? second_value : first_value
+  }
+
+  addListener (first_value, second_value,handle_obj) {
+    const triggerEvent = new Event ('mousedown')
     const that = this
     this.first_value = first_value
-    this.second_value = second_value
-    this.first_handle = handle_ojb.getHandle1()
-    this.second_handle = handle_ojb.getHandle2()
+    this.second_value = this.isRange? second_value : first_value
+    this.first_handle = handle_obj.getHandle1()
+    this.second_handle = handle_obj.getHandle2()
     let size_slider = that.isVertical? that.slider.getBoundingClientRect().height : 
                                       that.slider.getBoundingClientRect().width
     this.slider.addEventListener('mousedown', function (event) { 
@@ -39,10 +45,10 @@ export default class Slider {
                   target = event.clientX - x
                   
       if (event.target != that.first_handle && event.target != that.second_handle) {  
-        // if (marks) moveToMark()                                      
-        if (target < first_value) moveLeftHandle ()               
-        if (target > first_value && target < second_value) moveBetweenHandle ()           
-        if (target > second_value) moveRightHandle ()             
+        // if (marks) moveToMark()     
+        if (target < that.first_value) moveLeftHandle ()               
+        if (target > that.first_value && target < that.second_value) moveBetweenHandle ()           
+        if (target > that.second_value) moveRightHandle () 
       }
     
       // function moveToMark () {
@@ -58,26 +64,30 @@ export default class Slider {
       function moveLeftHandle () {
         if (target.toFixed(1)-2<0) target = 0
         if (that.step) parseTargetToStep ()
-        handle_ojb.update_handle(that.first_handle,target)
-
+        handle_obj.update_handle(that.first_handle,target)
+        that.first_handle.dispatchEvent(triggerEvent)
       }
-      function moveBetweenHandle () {
-        if (target - first_value < -(target - second_value)) {  
+      function moveBetweenHandle () { 
+        
+        if ((target - that.first_value) <= (that.second_value - target)) {  
           if (that.step) parseTargetToStep ()
-          handle_ojb.update_handle(that.first_handle,target)
-
+          handle_obj.update_handle(that.first_handle,target)
+          that.first_handle.dispatchEvent(triggerEvent)
         } else {
           if (that.step) parseTargetToStep ()
-          handle_ojb.update_handle(that.second_handle,target)
+          handle_obj.update_handle(that.second_handle,target)
+          that.second_handle.dispatchEvent(triggerEvent)
         }
       }
       function moveRightHandle () {
         if (target.toFixed(1) >= size_slider-1) {target = size_slider} 
         if (that.step) parseTargetToStep ()
         if (that.isRange) {
-          handle_ojb.update_handle(that.second_handle,target)       
+          handle_obj.update_handle(that.second_handle,target)
+          that.second_handle.dispatchEvent(triggerEvent)
           } else {
-          handle_ojb.update_handle(that.first_handle,target)
+          handle_obj.update_handle(that.first_handle,target)
+          that.first_handle.dispatchEvent(triggerEvent)
         }
       }
       function parseTargetToStep () {
