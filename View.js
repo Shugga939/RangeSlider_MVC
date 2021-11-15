@@ -11,7 +11,6 @@ import {parsePxInValue, parseValueInPx} from "./Helpers.js"
 class View {
   constructor () {
     this.app = document.querySelector('.slider')
-    // this.slider = this.createElement('div','range-slider')
     this.label = this.createElement('span', 'value_label')
     this.marksContainer = this.createElement('div', 'marks')
     this.mark = this.createElement('span', 'mark')
@@ -24,6 +23,18 @@ class View {
     return element
   }
 
+  update(options) {
+    this.options = options
+    this.initValues()
+    this.initStyles()
+    this.slider_object.setOptions(options)
+    this.handle.setOptions(options, this.first_value, this.second_value)
+    this.rangeLine.setOptions(options)
+    this.input.setOptions(options)
+    this.handle.update_handle(this.handle.getHandle1(), this.first_value)
+    this.handle.update_handle(this.handle.getHandle2(), this.second_value)
+  }
+  
   renderDOM (options) {
     this.options = options
     this.slider_object = new Slider (this.options, this.app,this.observer)
@@ -37,7 +48,9 @@ class View {
     this.rangeLine.renderLine()
     this.marks.renderMarks()
     this.slider_object.renderSlider()
-
+  }
+  
+  initValues() {
     let isVertical = (this.options.orientation == "vertical")
     this.size_slider = isVertical? this.slider.getBoundingClientRect().height : 
                                    this.slider.getBoundingClientRect().width
@@ -53,7 +66,7 @@ class View {
   initScripts () {
     const that = this
     addListeners()
-    addObserver ()
+    addObserver()
 
     function addListeners() {
       that.handle.addListener()
@@ -69,16 +82,14 @@ class View {
       that.observer.subscribe(updateValue)
 
       function updateValue (val1,val2) {
-        that.first_value = val1
-        that.second_value = val2
-        that.rangeLine.update(that.first_value,that.second_value,that.options)
-        that.input.update(that.first_value,that.second_value,that.size_slider)
-        that.slider_object.update(that.first_value,that.second_value)
+          that.first_value = val1
+          that.second_value = val2
+          that.rangeLine.update(that.first_value,that.second_value,that.options)
+          that.input.update(that.first_value,that.second_value,that.size_slider)
+          that.slider_object.update(that.first_value,that.second_value)
       }
     }
   }
 }
-
-
 
 export default View

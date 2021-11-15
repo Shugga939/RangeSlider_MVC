@@ -22,6 +22,15 @@ export default class Handle {
     return this.handle_2
   }
 
+  setOptions (options,first_value,second_value) {
+    this.options = options
+    this.isRange = (options.range == true)
+    this.step = options.step 
+    this.first_value = first_value
+    this.second_value = second_value
+    this.isRange? this.handle_1.after(this.handle_2) : this.handle_2.remove()
+  }
+
   update_handle (handle, spacing_target) {
     this.isVertical? handle.style.bottom = `${spacing_target}px`:
                 handle.style.left = `${spacing_target}px`;
@@ -55,7 +64,7 @@ export default class Handle {
     let that = this
     const slider = this.slider
     let size_slider = this.isVertical? slider.getBoundingClientRect().height : 
-                                  slider.getBoundingClientRect().width
+                                       slider.getBoundingClientRect().width
     let borderWidth_of_slider = this.isVertical? slider.clientTop : slider.clientLeft
     this.handle_1.addEventListener('mousedown', HandleMove)             
     if (this.isRange) this.handle_2.addEventListener('mousedown', HandleMove)
@@ -72,7 +81,7 @@ export default class Handle {
       let shift
       let margin_handle
 
-      if(that.isVertical) {
+      if (that.isVertical) {
         shift = (event.clientY - handle.getBoundingClientRect().top - handle.offsetHeight/2) || '0'
         margin_handle =  parseInt(getComputedStyle(handle).marginTop)
       } else {
@@ -104,7 +113,6 @@ export default class Handle {
         }
         function moveIfStep () {
           let step = that.step
-          if (isNaN(step)) step = 1
           let target_up
           let target_down
     

@@ -11,6 +11,11 @@ export default class RangeLine {
     this.slider.append(this.rangeLine)
   }
 
+  setOptions (options) {
+    this.options = options
+    this.isRange = (options.range == true)
+  }
+
   update (first_value,second_value) {
     let that = this
     this.isRange? update_if_isRange() : update_if_notRange()

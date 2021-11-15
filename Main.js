@@ -1,19 +1,25 @@
-import Model from './Model.js'
-import View from './View.js'
-import Controller from './Controller.js'
+import {Slider} from "./RangeSlider.js";
 
-let options = {
+let slider = new Slider({
   min_value : 0,
   max_value : 40,
-  values : [20,30],
+  values : [15,30],
   separator : ' - ',
-  modifier : '₽',
-  // range : true,  
+  modifier : 'R',
+  range : true,  
   orientation : "vertical",
-  // label : 'true',
-  // step : 5,  
-  marks : 's'
-};
+  label : '',
+  step : '',  
+  marks : ''
+})
 
-const app1 = new Controller (new Model(options), new View())
+slider.setOptions({
+  min_value : 250,
+  max_value : 730,
+  values : [269,662],
+  separator : ' - ',
+  range : true,  
+  modifier : '$',
+  step : '30',  
+})
 

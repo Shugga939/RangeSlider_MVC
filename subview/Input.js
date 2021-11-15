@@ -13,6 +13,11 @@ export default class Input {
   renderInput () {
     this.app.append(this.input)
   }
+  
+  setOptions (options) {
+    this.options = options
+    this.isRange = (options.range == true)
+  }
 
   update (value_1, value_2, size_slider) {         
     let {separator = '', modifier = ''} = this.options
@@ -33,15 +38,14 @@ export default class Input {
     const that = this
     this.first_handle = handle.getHandle1()
     this.second_handle = handle.getHandle2()
+
     this.input.addEventListener('change', function (event) {
       let val =  that.input.value;
-      let {min_value, max_value, separator = '', modifier} = that.options       
+      let {min_value, max_value, separator = '', modifier = ''} = that.options       
       let [val1, val2] = parseValue(val)                         // получаем реальные значения  
       if (val1 > val2 || val2 < val1) [val1,val2] = [val2,val1]
       handle.update_handle(that.first_handle, parseValueInPx(val1,that.options,size_slider))
-      // update_handle(first_handle,parseValueInPx(val1,options))
         if (that.isRange) {
-          // update_handle(second_handle,parseValueInPx(val2,options))
           handle.update_handle(that.second_handle, parseValueInPx(val2,that.options,size_slider))
           that.input.value = val1 + modifier + separator + val2 + modifier // меняем вручную, т.к. обновление через update_handle
         } else {                                                             // принимает значение согласно шагу

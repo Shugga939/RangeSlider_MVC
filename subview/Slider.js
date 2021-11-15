@@ -20,6 +20,11 @@ export default class Slider {
     return this.slider
   }
 
+  setOptions (options) {
+    this.options = options
+    this.isRange = (options.range == true)
+  }
+
   update (first_value, second_value) {
     this.first_value = first_value
     this.second_value = this.isRange? second_value : first_value
