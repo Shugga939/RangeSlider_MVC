@@ -1,19 +1,26 @@
 import {parseValueInPx,parsePxInValue} from "../Helpers.js"
+import Marks from "./Marks.js"
 
 export default class Slider {
   constructor (options,app,observer) {
-    this.observer = observer
     this.options = options
+    this.app = app
+    this.observer = observer
     this.slider = document.createElement('div')
     this.slider.classList.add('range-slider')
-    this.app = app
+    this.marks = new Marks (this.options,this)
     this.isRange = (options.range == true)
     this.isVertical = (options.orientation == "vertical")
     this.step = options.step 
   }
 
-  renderSlider() {
-      this.app.append(this.slider)
+  renderSlider(handle) {
+    this.app.append(this.slider)
+    if (this.options.marks.length) {
+      this.handle = handle
+      this.marks.render(handle)
+      this.marks.updateStyle()
+    }
   }
   
   getDOM_element () {
@@ -23,6 +30,13 @@ export default class Slider {
   setOptions (options) {
     this.options = options
     this.isRange = (options.range == true)
+    if (this.options.marks.length) {
+      this.marks.setOptions(this.options)
+      this.marks.render(this.handle)
+      this.marks.updateStyle()
+    } else {
+      this.marks.delete()
+    }
   }
 
   update (first_value, second_value) {
@@ -44,28 +58,27 @@ export default class Slider {
       let {y} = that.slider.getBoundingClientRect() 
       let {x} = that.slider.getBoundingClientRect()  
       let target
-      // const marks = slider.querySelector('.marks')
     
       that.isVertical? target = -(event.clientY - y - size_slider) :
                   target = event.clientX - x
                   
       if (event.target != that.first_handle && event.target != that.second_handle) {  
-        // if (marks) moveToMark()     
+        if (that.marks) moveToMark()     
         if (target < that.first_value) moveLeftHandle ()               
         if (target > that.first_value && target < that.second_value) moveBetweenHandle ()           
         if (target > that.second_value) moveRightHandle () 
       }
     
-      // function moveToMark () {
-      //   if (event.target.parentElement == marks) {
-      //     [...marks.children].forEach(element => {
-      //       if (event.target == element) {
-      //         target = parseValueInPx(element.dataset.value, options)
-      //         if (!isRange) second_value = target
-      //       }
-      //     })
-      //   }
-      // }
+      function moveToMark () {
+        let marks = that.marks.getDOM_element()
+        if (event.target.parentElement == marks) {
+          [...marks.children].forEach(element => {
+            if (event.target == element) {
+              target = parseValueInPx(element.dataset.value, that.options,size_slider)
+            }
+          })
+        }
+      }
       function moveLeftHandle () {
         if (target.toFixed(1)-2<0) target = 0
         if (that.step) parseTargetToStep ()
@@ -73,7 +86,6 @@ export default class Slider {
         that.first_handle.dispatchEvent(triggerEvent)
       }
       function moveBetweenHandle () { 
-        
         if ((target - that.first_value) <= (that.second_value - target)) {  
           if (that.step) parseTargetToStep ()
           handle_obj.update_handle(that.first_handle,target)

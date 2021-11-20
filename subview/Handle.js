@@ -1,17 +1,19 @@
 import {parsePxInValue, parseValueInPx} from "../Helpers.js"
+import Labels from "./Labels.js"
 
 export default class Handle {
   constructor (options,slider,observer) {
+    this.options = options
+    this.slider = slider
+    this.observer = observer
     this.handle_1 = document.createElement('span')
     this.handle_1.classList.add('slider-handle')
     this.handle_2 = document.createElement('span')
     this.handle_2.classList.add('slider-handle')
-    this.options = options
+    this.labels = new Labels (this.options,this)
     this.isRange = (options.range == true)
     this.isVertical = (options.orientation == "vertical")
     this.step = options.step 
-    this.slider = slider
-    this.observer = observer
   }
   
   getHandle1 () {
@@ -28,7 +30,18 @@ export default class Handle {
     this.step = options.step 
     this.first_value = first_value
     this.second_value = second_value
-    this.isRange? this.handle_1.after(this.handle_2) : this.handle_2.remove()
+    if (this.isRange) {
+      this.handle_1.after(this.handle_2)
+      this.updateStyle()
+      this.addListener()
+    } else {
+       this.handle_2.remove()
+    }
+    if (this.options.label == true) {
+      this.labels.render()
+    } else {
+      this.labels.delete()
+    }
   }
 
   update_handle (handle, spacing_target) {
@@ -37,12 +50,17 @@ export default class Handle {
   
     handle == this.handle_1 ? this.first_value = spacing_target : this.second_value = spacing_target
     this.observer.broadcast(this.first_value, this.second_value)
+    if (this.options.label == true) {
+      this.labels.update(parsePxInValue(this.first_value,this.options,this.size_slider),
+                         parsePxInValue(this.second_value,this.options,this.size_slider))
+    }
   }
 
   renderHandles () {
     let arrOfHandles = [this.handle_1]
     if (this.isRange) arrOfHandles.push(this.handle_2)
     arrOfHandles.forEach (el=> {this.slider.append(el)})
+    if (this.options.label == true) this.labels.render()
   }
 
   updateStyle () {
@@ -63,7 +81,7 @@ export default class Handle {
   addListener () {
     let that = this
     const slider = this.slider
-    let size_slider = this.isVertical? slider.getBoundingClientRect().height : 
+    this.size_slider = this.isVertical? slider.getBoundingClientRect().height : 
                                        slider.getBoundingClientRect().width
     let borderWidth_of_slider = this.isVertical? slider.clientTop : slider.clientLeft
     this.handle_1.addEventListener('mousedown', HandleMove)             
@@ -91,10 +109,10 @@ export default class Handle {
 
       function MouseMove (event) {
         let target                  
-        let newRight = size_slider   
-        let val1 = parsePxInValue(that.first_value,that.options,size_slider)  
-        let val2 = parsePxInValue(that.second_value,that.options,size_slider)  
-        that.isVertical? target = -(event.clientY - y  - shift - margin_handle  - size_slider) :
+        let newRight = that.size_slider   
+        let val1 = parsePxInValue(that.first_value,that.options,that.size_slider)  
+        let val2 = parsePxInValue(that.second_value,that.options,that.size_slider)  
+        that.isVertical? target = -(event.clientY - y  - shift - margin_handle  - that.size_slider  ) :
                     target = event.clientX - x -shift - margin_handle - borderWidth_of_slider
                     
         that.step? moveIfStep() : moveIfNotStep()
@@ -116,8 +134,8 @@ export default class Handle {
           let target_up
           let target_down
     
-          handle == that.handle_1? target_up = parseValueInPx(+val1+ +step, that.options,size_slider) : target_up = parseValueInPx(+val2+ +step, that.options,size_slider)
-          handle == that.handle_1? target_down = parseValueInPx(+val1- +step, that.options,size_slider) : target_down = parseValueInPx(+val2- +step, that.options,size_slider)
+          handle == that.handle_1? target_up = parseValueInPx(+val1+ +step, that.options,that.size_slider  ) : target_up = parseValueInPx(+val2+ +step, that.options,that.size_slider  )
+          handle == that.handle_1? target_down = parseValueInPx(+val1- +step, that.options,that.size_slider  ) : target_down = parseValueInPx(+val2- +step, that.options,that.size_slider  )
           
           if(target_up> newRight) target_up = newRight 
           if(target_down < 0) target_down = 0          
@@ -134,7 +152,6 @@ export default class Handle {
           } 
         }
       }
-    
       function MouseUp () {
         document.removeEventListener('mouseup', MouseUp)
         document.removeEventListener('mousemove', MouseMove)

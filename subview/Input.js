@@ -29,7 +29,6 @@ export default class Input {
     } else {
       this.input.value = first_value + modifier
     }
-    // update_labels_of_value (first_value, second_value)
   }
 
   addListener (handle,size_slider) {
@@ -42,32 +41,32 @@ export default class Input {
     this.input.addEventListener('change', function (event) {
       let val =  that.input.value;
       let {min_value, max_value, separator = '', modifier = ''} = that.options       
-      let [val1, val2] = parseValue(val)                         // получаем реальные значения  
+      let [val1, val2] = parseValue(val)                         
       if (val1 > val2 || val2 < val1) [val1,val2] = [val2,val1]
       handle.update_handle(that.first_handle, parseValueInPx(val1,that.options,size_slider))
         if (that.isRange) {
           handle.update_handle(that.second_handle, parseValueInPx(val2,that.options,size_slider))
-          that.input.value = val1 + modifier + separator + val2 + modifier // меняем вручную, т.к. обновление через update_handle
-        } else {                                                             // принимает значение согласно шагу
+          that.input.value = val1 + modifier + separator + val2 + modifier 
+        } else {                                                             
           that.input.value = val1 + modifier
         }
     
-      function parseValue (value) {                    //парсим значения исходя из наличия сепаратора,
-        let value1 = parseInt(value)                   //проверяем мин, макс значения
+      function parseValue (value) {                   
+        let value1 = parseInt(value)                   
         let value2;
     
-        if (separator && that.isRange) {                                  // если есть сепаратор - делить по нему
+        if (separator && that.isRange) {                             
           value1 = parseInt(value.split(separator)[0])
           value2 = parseInt(value.split(separator)[1])
-        } else if (modifier && that.isRange) {                            // если нет сепаратора, но есть модификатор
+        } else if (modifier && that.isRange) {                         
           value1 = parseInt(value.split(modifier)[0])
           value2 = parseInt(value.split(modifier)[1])
         } else if (!that.isRang) {
           value1 = parseInt(value)
         }
     
-        if (isNaN(value1)) value1 = min_value             // при отсутствии цифрового значения
-        if (isNaN(value2)) value2 = value1                // value2 = value1 || value1 = минимальное значение
+        if (isNaN(value1)) value1 = min_value            
+        if (isNaN(value2)) value2 = value1                
         return [checkMinMax(value1,min_value,max_value),   
                 checkMinMax(value2,min_value,max_value)]
       }

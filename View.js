@@ -2,25 +2,15 @@ import Slider from './subview/Slider.js'
 import Input from './subview/Input.js'
 import Handle from './subview/Handle.js'
 import RangeLine from './subview/RangeLine.js'
-import Marks from './subview/Marks.js'
 import Observer from './Observer.js'
 
-import {parsePxInValue, parseValueInPx} from "./Helpers.js"
+import {parseValueInPx} from "./Helpers.js"
 
 
 class View {
   constructor () {
     this.app = document.querySelector('.slider')
-    this.label = this.createElement('span', 'value_label')
-    this.marksContainer = this.createElement('div', 'marks')
-    this.mark = this.createElement('span', 'mark')
     this.observer = new Observer()
-  }
-
-  createElement(tag, className) {
-    const element = document.createElement(tag)
-    if (className) element.classList.add(className)
-    return element
   }
 
   update(options) {
@@ -42,12 +32,10 @@ class View {
     this.input = new Input (this.options, this.app)
     this.handle = new Handle (this.options,this.slider,this.observer)
     this.rangeLine = new RangeLine (this.options, this.slider)
-    this.marks = new Marks (this.options,this.slider)
     this.input.renderInput()
     this.handle.renderHandles()
     this.rangeLine.renderLine()
-    this.marks.renderMarks()
-    this.slider_object.renderSlider()
+    this.slider_object.renderSlider(this.handle)
   }
   
   initValues() {

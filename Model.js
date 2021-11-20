@@ -2,6 +2,7 @@ class Model {
   constructor (options) {
     this.options = options || this.initDefoultOptions()
     this._checkCorrectValues(this.options)
+    if (this.options.marks) this.checkMarksObject()
   }
   
   getOptions () {
@@ -11,6 +12,7 @@ class Model {
   setOption(options) {
     this.options = {...this.options, ...options}
     this._checkCorrectValues(this.options)
+    if (this.options.marks) this.checkMarksObject()
   }
 
   initDefoultOptions() {
@@ -24,7 +26,15 @@ class Model {
       orientation : "vertical",
       label : '',
       step : '',  
-      marks : ''
+      marks : [
+        {
+          value: 0,
+          label: `${0}`
+        },
+        {
+          value: 100,
+          label: `${100}`
+        }]
     };
   }
 
@@ -58,6 +68,12 @@ class Model {
       if (!val1 && val2) options.values = [min_value, val2]
       if (!val2 && val1) options.values = [val1, max_value]
     }
+  }
+  checkMarksObject () {
+    this.options.marks = this.options.marks.filter(element => 
+      element.value <= this.options.max_value && element.value >= this.options.min_value
+    );
+
   }
 }
 
