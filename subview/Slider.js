@@ -28,7 +28,6 @@ export default class Slider {
   }
 
   setOptions (options) {
-    // let oldOPtions = this.options
     this.options = options
     this.isRange = (options.range == true)
     if (this.options.marks.length) {
@@ -55,14 +54,19 @@ export default class Slider {
     this.second_handle = handle_obj.getHandle2()
     let size_slider = that.isVertical? that.slider.getBoundingClientRect().height : 
                                       that.slider.getBoundingClientRect().width
-    this.slider.addEventListener('mousedown', function (event) { 
+    this.slider.addEventListener('mousedown', sliderMove)
+    this.slider.addEventListener('touchstart', sliderMove)
+
+    function sliderMove (event) { 
       event.preventDefault()
+      let clientX = event.touches? event.touches[0].clientX : event.clientX 
+      let clientY = event.touches? event.touches[0].clientY : event.clientY 
       let {y} = that.slider.getBoundingClientRect() 
       let {x} = that.slider.getBoundingClientRect()  
       let target
     
-      that.isVertical? target = -(event.clientY - y - size_slider) :
-                  target = event.clientX - x
+      that.isVertical? target = -(clientY - y - size_slider) :
+                  target = clientX - x
                   
       if (event.target != that.first_handle && event.target != that.second_handle) {  
         if (that.marks) moveToMark()     
@@ -117,6 +121,6 @@ export default class Slider {
         let val3 = parsePxInValue(target,that.options,size_slider)/value                 
         target = parseValueInPx(Math.round(val3/val2)*step,that.options,size_slider)
       }
-    })
+    }
   }
 }

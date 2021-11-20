@@ -83,38 +83,48 @@ export default class Handle {
     let that = this
     const slider = this.slider
     this.size_slider = this.isVertical? slider.getBoundingClientRect().height : 
-                                       slider.getBoundingClientRect().width
+                                        slider.getBoundingClientRect().width
     let borderWidth_of_slider = this.isVertical? slider.clientTop : slider.clientLeft
-    this.handle_1.addEventListener('mousedown', HandleMove)             
-    if (this.isRange) this.handle_2.addEventListener('mousedown', HandleMove)
+    this.handle_1.addEventListener('mousedown', HandleMove)
+    this.handle_1.addEventListener('touchstart', HandleMove)
+    if (this.isRange) {
+      this.handle_2.addEventListener('mousedown', HandleMove)
+      this.handle_2.addEventListener('touchstart', HandleMove)
+    }
 
     function HandleMove (event) {
       event.preventDefault()
       event.stopPropagation()
       document.addEventListener('mousemove', MouseMove)
       document.addEventListener('mouseup', MouseUp)
+      document.addEventListener('touchmove', MouseMove)
+      document.addEventListener('touchend', MouseUp)
     
       let handle = this
       let {x} = slider.getBoundingClientRect()
       let {y} = slider.getBoundingClientRect()
+      let clientX = event.touches? event.touches[0].clientX : event.clientX 
+      let clientY = event.touches? event.touches[0].clientY : event.clientY 
       let shift
       let margin_handle
 
       if (that.isVertical) {
-        shift = (event.clientY - handle.getBoundingClientRect().top - handle.offsetHeight/2) || '0'
+        shift = (clientY - handle.getBoundingClientRect().top - handle.offsetHeight/2) || '0'
         margin_handle =  parseInt(getComputedStyle(handle).marginTop)
       } else {
-        shift =  event.clientX - handle.getBoundingClientRect().left || handle.offsetHeight/2
+        shift =  clientX - handle.getBoundingClientRect().left || handle.offsetHeight/2
         margin_handle =  parseInt(getComputedStyle(handle).marginLeft)
       }
 
       function MouseMove (event) {
+        let clientX = event.touches? event.touches[0].clientX : event.clientX 
+        let clientY = event.touches? event.touches[0].clientY : event.clientY 
         let target                  
         let newRight = that.size_slider   
         let val1 = parsePxInValue(that.first_value,that.options,that.size_slider)  
         let val2 = parsePxInValue(that.second_value,that.options,that.size_slider)  
-        that.isVertical? target = -(event.clientY - y  - shift - margin_handle  - that.size_slider  ) :
-                    target = event.clientX - x -shift - margin_handle - borderWidth_of_slider
+        that.isVertical? target = -(clientY - y  - shift - margin_handle  - that.size_slider  ) :
+                    target = clientX - x -shift - margin_handle - borderWidth_of_slider
                     
         that.step? moveIfStep() : moveIfNotStep()
         
@@ -156,6 +166,8 @@ export default class Handle {
       function MouseUp () {
         document.removeEventListener('mouseup', MouseUp)
         document.removeEventListener('mousemove', MouseMove)
+        document.removeEventListener('touchmove', MouseMove)
+        document.removeEventListener('touchend', MouseUp)
       }
     }
   }

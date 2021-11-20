@@ -1,4 +1,3 @@
-import {Slider} from "./RangeSlider.js";
 const slider_container_1 = document.querySelector('.first_slider')
 const slider_container_2 = document.querySelector('.second_slider')
 
