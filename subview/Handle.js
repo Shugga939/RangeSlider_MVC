@@ -38,6 +38,7 @@ export default class Handle {
        this.handle_2.remove()
     }
     if (this.options.label == true) {
+      this.labels.setOptions(options)
       this.labels.render()
     } else {
       this.labels.delete()

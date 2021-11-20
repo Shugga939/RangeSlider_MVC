@@ -8,8 +8,14 @@ import {parseValueInPx} from "./Helpers.js"
 
 
 class View {
-  constructor () {
-    this.app = document.querySelector('.slider')
+  constructor (element) {
+    if (!element.classList.contains('slider')) {
+      this.app = document.createElement('div')
+      this.app.classList.add('slider')
+      element.append(this.app)
+    } else {
+      this.app = element
+    }
     this.observer = new Observer()
   }
 

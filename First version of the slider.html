@@ -5,26 +5,66 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Range-slider.css"> 
     <title>Document</title>
 </head>
 <body>
     <div class="container">
-        <div class="slider">
-            <!-- <input type="text" class="slider-value">
-            <div class="range-slider">
-                <div class="marks"></div>
-                <div class="slider-range"></div> 
-                <span class="slider-handle">
-                    <span class="value_label "></span>
-                </span>
-                <span class="slider-handle">
-                    <span class="value_label "></span>
-                </span>
-            </div>  -->
+        <div class="first_slider">
+            <div class="controls">
+                <div>
+                    <label>
+                        <input type="checkbox" name="range" > Range
+                    </label>
+                    <label>
+                        <input type="checkbox" name="label" > Labels
+                    </label>
+                </div>
+                <div>
+                    <label> Min value
+                        <input type="number" name="min_value" >
+                    </label>
+                    <label> Max value
+                        <input type="number" name="max_value">
+                    </label>
+                    <label> Step <br>
+                        <input type="number" name="step" >
+                    </label>
+                    <label> Setup values <br> (first value, second value)
+                        <input type="text" name="setup_value" >
+                    </label>
+
+                </div>
+            </div>
+        </div>
+        <div class="second_slider">
+            <div class="controls">
+                <div>
+                    <label>
+                        <input type="checkbox" name="range" checked = "true" > Range
+                    </label>
+                    <label>
+                        <input type="checkbox" name="label" checked = "true"> Labels
+                    </label>
+                </div>
+                <div>
+                    <label> Min value
+                        <input type="number" name="min_value" >
+                    </label>
+                    <label> Max value
+                        <input type="number" name="max_value">
+                    </label>
+                    <label> Step <br>
+                        <input type="number" name="step" >
+                    </label>
+                    <label> Setup values <br> (first value, second value)
+                        <input type="text" name="setup_value" >
+                    </label>
+
+                </div>
+            </div>
         </div>
     </div>
-<!-- <script src="js.js"></script> -->
-<script type="module" src="main.js"></script>
-<script type="module" src="RangeSlider.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>   

@@ -20,6 +20,10 @@ export default class Labels {
     }
   }
 
+  setOptions (opt) {
+    this.options = opt
+  }
+
   delete () {
     this.label1.remove()
     this.label2.remove()

@@ -28,9 +28,11 @@ export default class Slider {
   }
 
   setOptions (options) {
+    // let oldOPtions = this.options
     this.options = options
     this.isRange = (options.range == true)
     if (this.options.marks.length) {
+      this.marks.delete()
       this.marks.setOptions(this.options)
       this.marks.render(this.handle)
       this.marks.updateStyle()

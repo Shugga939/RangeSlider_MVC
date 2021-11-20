@@ -6,6 +6,7 @@ class Controller {
     this.view.initValues()
     this.view.initStyles()
     this.view.initScripts()
+    console.log('s')
   }
 
   setOptions (opt) {

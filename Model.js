@@ -49,7 +49,7 @@ class Model {
       options.values = [min_value, max_value]
       console.log( new Error ('Укажите корректные значения в опциях'))
     }
-    if (step && isNaN(options.step)) options.step = (max_value - min_value)/10
+    if (step && (isNaN(options.step) || step <0)) options.step = (max_value - min_value)/10
     
     function checkOverstatementOrUnderstatement (val1, val2, min_value, max_value  ) {
       if (val1 === 0 && min_value === 0) val1 = true

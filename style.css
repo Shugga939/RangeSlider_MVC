@@ -11,124 +11,90 @@ body {
 
 .container {
   position: relative;
-  margin: 20px 10%;
-}
-
-.slider {
-  position: relative;
-  height: -webkit-min-content;
-  height: -moz-min-content;
-  height: min-content;
-  width: 300px;
-  height: 200px;
-}
-
-.slider .slider-value {
-  margin-bottom: 50px;
-  margin-left: 25%;
-}
-
-.slider .range-slider {
-  position: relative;
-  height: 100%;
-  width: 6px;
-  border: 1px solid #c5c5c5;
-  border-radius: 3px;
-}
-
-.slider .range-slider .slider-range {
-  position: absolute;
-  background: -webkit-gradient(linear, left top, left bottom, from(#6fcf97), to(#66d2ea));
-  background: linear-gradient(180deg, #6fcf97, #66d2ea);
-  width: 6px;
-  height: 6px;
-  border-radius: 3px;
-}
-
-.slider .range-slider .slider-handle {
-  position: absolute;
-  z-index: 2;
-  cursor: default;
-  -ms-touch-action: none;
-  touch-action: none;
-  left: -4px;
-  width: 12px;
-  height: 12px;
-  border-radius: 100%;
-  border: 1px solid #fff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#6fcf97), to(#66d2ea));
-  background: linear-gradient(180deg, #6fcf97, #66d2ea);
-}
-
-.slider .range-slider .value_label {
-  position: relative;
-  color: #000000a2;
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
-  text-align: center;
-  cursor: pointer;
-  -ms-touch-action: none;
-      touch-action: none;
-  background: white;
-  border: 1px solid rgba(128, 128, 128, 0.404);
-  border-radius: 2px;
-  padding: 0 2px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
-.slider .range-slider .label_horizontal {
-  bottom: 30px;
+.container .controls {
+  margin-left: 20px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
-.slider .range-slider .label_horizontal::after {
-  content: '';
-  position: absolute;
-  top: 105%;
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid rgba(128, 128, 128, 0.404);
+.container .controls div:last-child {
+  width: 200px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-right: 50px;
+  margin-top: 5px;
 }
 
-.slider .range-slider .label_vertical {
-  left: 20px;
+.container .first_slider {
+  margin: 40px 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: wrap;
+          flex-direction: wrap;
+  padding-bottom: 50px;
+  border-bottom: 1px black solid;
 }
 
-.slider .range-slider .label_vertical::after {
-  content: '';
-  position: absolute;
-  top: 25%;
-  right: 103%;
-  width: 0;
-  height: 0;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-right: 5px solid rgba(128, 128, 128, 0.404);
+.container .first_slider .slider .slider-value {
+  bottom: 50px;
 }
 
-.slider .marks {
-  position: absolute;
-  color: rgba(128, 128, 128, 0.404);
+.container .first_slider .slider .range-slider .slider-range {
+  left: -1px;
 }
 
-.slider .marks .mark {
-  position: absolute;
-  font-size: 12px;
-  cursor: pointer;
+.container .first_slider .slider .range-slider .slider-handle {
+  left: -4px;
 }
 
-.slider .marks_horizontal {
-  top: 12px;
+.container .second_slider {
+  margin: 40px 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: wrap;
+          flex-direction: wrap;
 }
 
-.slider .marks_vertical {
-  right: 20px;
+.container .second_slider .slider .slider-value {
+  bottom: 50px;
+}
+
+.container .second_slider .slider .range-slider {
+  width: 100%;
+  height: 6px;
+}
+
+.container .second_slider .slider .range-slider .slider-range {
+  top: -1px;
+}
+
+.container .second_slider .slider .range-slider .slider-handle {
+  top: -4px;
 }
 /*# sourceMappingURL=style.css.map */
