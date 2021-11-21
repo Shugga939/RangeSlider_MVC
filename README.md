@@ -70,7 +70,7 @@ slider.setOptions({marks : [
 | modifier     | string   | ''       | Set modifier for values (example : "$","%"...)                                                   |
 
 \*Complex object with next fieds:
-{indexFrom: number, indexFrom: number, indexTo: number, values: (number | string)[] }
+
 | Option | Description
 | ------ | -----------
 | value  | Actual value for slider
